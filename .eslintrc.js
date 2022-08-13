@@ -19,6 +19,13 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["@typescript-eslint", "node"],
-  rules: {},
+  rules: {
+    "node/no-missing-import": [
+      "error",
+      {
+        tryExtensions: [".js", ".ts", ".json", ".node"],
+      },
+    ],
+  },
   settings: {},
 }
