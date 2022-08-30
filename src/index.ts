@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import toDoList from "./todoList"
+import todoRoutes from "./API/todoRoutes"
 
 const app = express()
 const port = 5000
@@ -11,10 +11,8 @@ app.use(
   })
 )
 
-app.get("/api/todo/", (req, res) => {
-  res.send(toDoList)
-})
+app.use("/api/todo", todoRoutes)
 
 app.listen(port, () => {
-  console.log(`Express server is running on post ${port}`)
+  console.log(`Express server is running on port ${port}`)
 })
