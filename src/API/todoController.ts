@@ -54,8 +54,14 @@ export function del(req: Request, res: Response) {
 
 export function validateToDo(req: Request, res: Response, next: NextFunction) {
   toDoSchema
-    .validate(req.body)
-    .then(() => {
+    .validate(req.body, {
+      // collect all errors
+      abortEarly: false,
+      // Remove unspecified keys from objects
+      stripUnknown: true,
+    })
+    .then((values) => {
+      req.body = values
       return next()
     })
     .catch((err: ValidationError) => {
