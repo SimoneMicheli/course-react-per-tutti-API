@@ -21,7 +21,7 @@ export function create(req: Request, res: Response) {
   todo.id = (toDoList.length + 1).toString()
   toDoList.push(todo)
 
-  res.sendStatus(201)
+  res.status(201).send(todo)
 }
 
 export function update(req: Request, res: Response) {
@@ -36,7 +36,7 @@ export function update(req: Request, res: Response) {
 
   toDoList.splice(index, 1, todo)
 
-  res.sendStatus(200)
+  res.send(todo)
 }
 
 export function del(req: Request, res: Response) {
@@ -47,7 +47,7 @@ export function del(req: Request, res: Response) {
 
   if (index === -1) return res.sendStatus(400)
 
-  toDoList.splice(index)
+  toDoList.splice(index, 1)
 
   return res.sendStatus(200)
 }
