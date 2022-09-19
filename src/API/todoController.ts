@@ -3,7 +3,7 @@ import { ValidationError } from "yup"
 import { ToDo, toDoSchema } from "../models"
 import toDoList, { findById, findIndexById } from "../todoList"
 
-export function getList(req: Request, res: Response) {
+export function getList(_: Request, res: Response) {
   res.send(toDoList)
 }
 
