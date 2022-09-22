@@ -9,10 +9,18 @@ type ToDo = {
   description?: string
 }
 
-const toDoSchema = yup.object({
+const newToDoSchema = yup.object({
   title: yup.string().required(),
   completed: yup.boolean().required(),
   created_at: yup.date().required(),
+  completed_at: yup.date().when("completed", {
+    is: true,
+    then: (schema) => schema.required("completed_at is a required field if completed is set to true"),
+  }),
 })
 
-export { ToDo, toDoSchema }
+const existingToDoSchema = newToDoSchema.shape({
+  id: yup.string().required(),
+})
+
+export { ToDo, newToDoSchema, existingToDoSchema }
