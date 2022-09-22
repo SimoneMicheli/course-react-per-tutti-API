@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express"
 import { ValidationError } from "yup"
-import { ToDo, toDoSchema } from "../models"
+import { ToDo } from "../models"
 import toDoList, { findById, findIndexById } from "../todoList"
+import * as yup from "yup"
 
-export function getList(req: Request, res: Response) {
+export function getList(_: Request, res: Response) {
   res.send(toDoList)
 }
 
@@ -52,19 +53,24 @@ export function del(req: Request, res: Response) {
   return res.sendStatus(200)
 }
 
-export function validateToDo(req: Request, res: Response, next: NextFunction) {
-  toDoSchema
-    .validate(req.body, {
-      // collect all errors
-      abortEarly: false,
-      // Remove unspecified keys from objects
-      stripUnknown: true,
-    })
-    .then((values) => {
-      req.body = values
-      return next()
-    })
-    .catch((err: ValidationError) => {
-      return next(err.errors.join(","))
-    })
+/**
+ * Return a new middleware validator based on the provided schema
+ */
+export function ToDoValidator(schema: yup.AnyObjectSchema) {
+  return function (req: Request, _: Response, next: NextFunction) {
+    schema
+      .validate(req.body, {
+        // collect all errors
+        abortEarly: false,
+        // Remove unspecified keys from objects
+        stripUnknown: true,
+      })
+      .then((values) => {
+        req.body = values
+        return next()
+      })
+      .catch((err: ValidationError) => {
+        return next(err.errors.join(","))
+      })
+  }
 }
