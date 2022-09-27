@@ -17,6 +17,7 @@ const newToDoSchema = yup.object({
     is: true,
     then: (schema) => schema.required("completed_at is a required field if completed is set to true"),
   }),
+  description: yup.string(),
 })
 
 const existingToDoSchema = newToDoSchema.shape({
