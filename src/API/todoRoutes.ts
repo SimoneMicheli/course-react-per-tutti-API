@@ -13,6 +13,6 @@ router.get("/", controller.getList)
 router.get("/:id", controller.getToDo)
 router.post("/", jsonParser, newToDoValidator, controller.create)
 router.put("/:id", jsonParser, updateToDoValidator, controller.update)
-router.delete("/:id", updateToDoValidator, controller.del)
+router.delete("/:id", controller.del)
 
 export default router

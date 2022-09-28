@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express"
+import { NextFunction, Request, Response } from "express"
+import * as yup from "yup"
 import { ValidationError } from "yup"
 import { ToDo } from "../models"
 import toDoList, { findById, findIndexById } from "../todoList"
-import * as yup from "yup"
 
 export function getList(_: Request, res: Response) {
   res.send(toDoList)
