@@ -1,13 +1,16 @@
 import bodyParser from "body-parser"
 import { Router } from "express"
-import { existingToDoSchema, newToDoSchema } from "../models"
+import { toDoSchema } from "../models"
+import * as sse from "../sse"
 import * as controller from "./todoController"
 
 const router = Router()
 const jsonParser = bodyParser.json()
 
-const newToDoValidator = controller.ToDoValidator(newToDoSchema)
-const updateToDoValidator = controller.ToDoValidator(existingToDoSchema)
+const newToDoValidator = controller.ToDoValidator(toDoSchema)
+const updateToDoValidator = controller.ToDoValidator(toDoSchema)
+
+router.get("/events/", sse.onClientConnect)
 
 router.get("/", controller.getList)
 router.get("/:id", controller.getToDo)
