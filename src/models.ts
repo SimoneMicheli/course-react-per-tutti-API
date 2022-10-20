@@ -28,8 +28,4 @@ const toDoSchema = yup.object({
     }),
 })
 
-/* const existingToDoSchema = newToDoSchema.shape({
-  id: yup.string().required(),
-}) */
-
 export { ToDo, toDoSchema }
