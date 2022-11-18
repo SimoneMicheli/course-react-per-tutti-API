@@ -1,3 +1,4 @@
+import { validate as uuidValidate, version as uuidVersion } from "uuid"
 import * as yup from "yup"
 
 type ToDo = {
@@ -9,7 +10,7 @@ type ToDo = {
   description?: string
 }
 
-const newToDoSchema = yup.object({
+const toDoSchema = yup.object({
   title: yup.string().required(),
   completed: yup.boolean().required(),
   created_at: yup.date().required(),
@@ -18,10 +19,13 @@ const newToDoSchema = yup.object({
     then: (schema) => schema.required("completed_at is a required field if completed is set to true"),
   }),
   description: yup.string(),
+  id: yup
+    .string()
+    .required()
+    .test("uuid", "Invalid UUID", (value?: string) => {
+      if (!value) return false
+      return uuidValidate(value) && uuidVersion(value) === 4
+    }),
 })
 
-const existingToDoSchema = newToDoSchema.shape({
-  id: yup.string().required(),
-})
-
-export { ToDo, newToDoSchema, existingToDoSchema }
+export { ToDo, toDoSchema }

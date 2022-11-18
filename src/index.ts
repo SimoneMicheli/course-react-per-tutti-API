@@ -1,5 +1,5 @@
-import express from "express"
 import cors from "cors"
+import express from "express"
 import todoRoutes from "./API/todoRoutes"
 
 const app = express()
@@ -7,7 +7,7 @@ const port = 5000
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
   })
 )
 

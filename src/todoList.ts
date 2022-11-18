@@ -1,8 +1,9 @@
+import { v4 as uuid } from "uuid"
 import { ToDo } from "./models"
 
 const todos: ToDo[] = [
-  { id: "1", title: "Elemento 1", completed: false, created_at: new Date(2022, 6, 4) },
-  { id: "2", title: "Elemento 2", completed: false, created_at: new Date(2022, 4, 4) },
+  { id: `${uuid()}`, title: "Elemento 1", completed: false, created_at: new Date(2022, 6, 4) },
+  { id: `${uuid()}`, title: "Elemento 2", completed: false, created_at: new Date(2022, 4, 4) },
 ]
 
 export function findIndexById(id: string) {

@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express"
+import * as sse from "../sse"
+
 import * as yup from "yup"
 import { ValidationError } from "yup"
 import { ToDo } from "../models"
@@ -19,8 +21,9 @@ export function getToDo(req: Request, res: Response) {
 
 export function create(req: Request, res: Response) {
   const todo = req.body as ToDo
-  todo.id = (toDoList.length + 1).toString()
   toDoList.push(todo)
+
+  sse.sendAddEvent(todo)
 
   res.status(201).send(todo)
 }
@@ -37,6 +40,8 @@ export function update(req: Request, res: Response) {
 
   toDoList.splice(index, 1, todo)
 
+  sse.sendUpdateEvent(todo)
+
   res.send(todo)
 }
 
@@ -48,7 +53,9 @@ export function del(req: Request, res: Response) {
 
   if (index === -1) return res.sendStatus(400)
 
-  toDoList.splice(index, 1)
+  const deletedToDo = toDoList.splice(index, 1)[0]
+
+  sse.sendDeleteEvent(deletedToDo)
 
   return res.sendStatus(200)
 }
